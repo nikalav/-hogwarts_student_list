@@ -42,6 +42,9 @@ function start() {
   modal.addEventListener("click", () => modal.classList.add("hide"));
   closeBtn.addEventListener("click", () => modal.classList.add("hide"));
 
+  //expel
+  document.querySelector("#list tbody").addEventListener("click", clickExpel);
+
   loadJSON();
 }
 
@@ -105,7 +108,7 @@ function displayList(students) {
   students.forEach(displayStudent);
 }
 
-function displayStudent(student) {
+function displayStudent(student, index) {
   // create clone
   const clone = document
     .querySelector("template#studentList")
@@ -114,6 +117,9 @@ function displayStudent(student) {
   clone.querySelector("[data-field=firstName]").textContent = student.firstName;
   clone.querySelector("[data-field=lastName]").textContent = student.lastName;
   clone.querySelector("[data-field=house]").textContent = student.house;
+
+  //stote the index on the button
+  clone.querySelector("[data-action=expel]").dataset.index = index;
 
   clone
     .querySelector("[data-action=info]")
@@ -136,4 +142,19 @@ function showModal(student) {
   // modal.querySelector("h2").textContent = student.lastName;
   modal.querySelector("h3").textContent = student.house;
   modal.classList.remove("hide");
+}
+//expel
+function clickExpel(event) {
+  const element = event.target; //the thing that was actually clicked
+
+  if (element.dataset.action === "expel") {
+    console.log("expel button clicked!");
+    console.log(element);
+    element.parentElement.parentElement.remove(); //remove action
+
+    //get index of element to remove
+    const index = element.dataset.index;
+    showList.splice(index, 1);
+    console.table(showList);
+  }
 }
