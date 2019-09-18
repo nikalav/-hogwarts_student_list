@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 2em;
+}
+article {
+  text-align: left;
+  margin-left: 10px;
+}
+img {
+  max-width: 100%;
+}
+
+.hide {
+  display: none;
+}
+.modal-content {
+  width: auto;
+  float: right;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.modal-content {
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+button {
+  border-radius: 1em;
+  border-color: #846a6a;
+  background-color: #cebbb6;
+}
