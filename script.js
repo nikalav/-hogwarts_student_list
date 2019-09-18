@@ -5,6 +5,8 @@ window.addEventListener("DOMContentLoaded", start);
 const allStudents = [];
 let showList = [];
 let studentListLink = "http://petlatkea.dk/2019/hogwartsdata/students.json";
+const modal = document.querySelector(".modal");
+const closeBtn = document.querySelector(".closeBtn");
 
 function start() {
   //add event-listeners for sorting
@@ -22,23 +24,23 @@ function start() {
 
   //add event listeners for filter
   document.querySelector(".ravenclaw").addEventListener("click", function() {
-    filterList("Ravenclaw");
+    filterStudent("Ravenclaw");
   });
   document.querySelector(".slytherin").addEventListener("click", function() {
-    filterList("Slytherin");
+    filterStudent("Slytherin");
   });
   document.querySelector(".gryffindor").addEventListener("click", function() {
-    filterList("Gryffindor");
+    filterStudent("Gryffindor");
   });
   document.querySelector(".hufflepuff").addEventListener("click", function() {
-    filterList("Hufflepuff");
+    filterStudent("Hufflepuff");
   });
   document.querySelector(".all").addEventListener("click", function() {
-    filterList("all");
+    filterStudent("all");
   });
-  // document.querySelector(".showModal").addEventListener("click", function() {
-  //   showDetails(showList, "modal");
-  // });
+  //modal
+  modal.addEventListener("click", () => modal.classList.add("hide"));
+  closeBtn.addEventListener("click", () => modal.classList.add("hide"));
 
   loadJSON();
 }
@@ -77,7 +79,7 @@ function capitalize(str) {
   let cap = str[0].toUpperCase() + str.slice(1).toLowerCase();
   return cap;
 }
-function filterList(house) {
+function filterStudet(house) {
   showList = allStudents.filter(filterByHouse);
   function filterByHouse(student) {
     if (student.house === house || house === "all") {
@@ -112,6 +114,11 @@ function displayStudent(student) {
   clone.querySelector("[data-field=firstName]").textContent = student.firstName;
   clone.querySelector("[data-field=lastName]").textContent = student.lastName;
   clone.querySelector("[data-field=house]").textContent = student.house;
+
+  clone
+    .querySelector("[data-action=info]")
+    .addEventListener("click", showModal);
+
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 }
@@ -123,13 +130,10 @@ const Student = {
 };
 
 //modal
-// function showDetails(students) {
-//   console.log(students);
-
-//   //	modal.querySelector("img").src =
-
-//   modal.querySelector("h2").textContent = students.fullname;
-//   modal.querySelector("h3").textContent = students.gender;
-//   modal.querySelector("p").textContent = students.house;
-//   modal.classList.remove("hide");
-// }
+function showModal(student) {
+  console.log(student);
+  modal.querySelector("h2").textContent = student.firstName;
+  // modal.querySelector("h2").textContent = student.lastName;
+  modal.querySelector("h3").textContent = student.house;
+  modal.classList.remove("hide");
+}
