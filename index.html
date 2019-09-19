@@ -9,6 +9,9 @@
   </head>
   <body>
     <h1>Hogwarts Student List</h1>
+
+    <h3 id="studentCount"></h3>
+    <h3 id="studentExpelled"></h3>
     <div id="filter">
       Filter:
       <button type="button" class="gryffindor">Gryffindor</button>
@@ -21,12 +24,14 @@
       <label>
         Sort by:
         <select id="sorting">
+          <option value="option" class="chooseOption">Choose</option>
           <option value="firstname" class="firstNameSort">First name</option>
           <option value="lastname" class="lastNameSort">Last name</option>
           <option value="house" class="houseSort">House</option>
         </select>
       </label>
     </p>
+
     <table id="list">
       <thead>
         <tr>
@@ -41,7 +46,7 @@
       <article class="modal-content">
         <button class="closeBtn">x</button>
         <h2>NAME</h2>
-        <h3>GENDER</h3>
+        <h3></h3>
         <img />
         <p>HOUSE</p>
       </article>
@@ -52,7 +57,8 @@
         <td data-field="lastName">Last Name</td>
         <td data-field="house">House</td>
         <td><button data-action="info" class="showModal">See More</button></td>
-        <td><button data-action="expel">EXPEL</button></td>
+        <td><button data-action="expel" data-attribute="id">EXPEL</button></td>
+        <td data-field="expeledStatus"></td>
       </tr>
     </template>
 
