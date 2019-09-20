@@ -8,7 +8,7 @@ h1 {
 }
 article {
   text-align: left;
-  margin-left: 10px;
+  background-color: #846a6a;
 }
 img {
   max-width: 100%;
@@ -40,4 +40,10 @@ button {
   border-radius: 1em;
   border-color: #846a6a;
   background-color: #cebbb6;
+}
+.expelledstyle {
+  color: red;
+}
+[data-field="expelledStatus"] {
+  color: red;
 }

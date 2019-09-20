@@ -91,6 +91,7 @@ function prepareObj(jsonData) {
     allStudents.push(student);
     showList.push(student);
     student.id = uuidv4();
+    student.expel = "EXPELLED";
     document.querySelector("#studentCount").innerHTML =
       "Student:" + " " + showList.length; //??
     document.querySelector("#studentExpelled").innerHTML =
@@ -143,11 +144,7 @@ function displayStudent(student, index) {
   //state the index on the button
   clone.querySelector("[data-action=expel]").dataset.index = index;
 
-  clone
-    .querySelector("[data-action=info]")
-    .addEventListener("click", function() {
-      showModal(student);
-    });
+  //show expelled
   let expelStudent = expelledList.find(stud => stud.id === student.id);
   if (expelStudent !== undefined) {
     clone.querySelector("[data-field=expeledStatus]").textContent =
@@ -156,6 +153,12 @@ function displayStudent(student, index) {
   } else if (expelStudent === undefined) {
     clone.querySelector("[data-action=expel]").dataset.attribute = student.id;
   }
+
+  clone
+    .querySelector("[data-action=info]")
+    .addEventListener("click", function() {
+      showModal(student);
+    });
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
@@ -166,44 +169,75 @@ const Student = {
   middleName: "-middleName-",
   lastName: "-lastName-",
   house: "-house-",
+  expel: "-expelled-",
   id: "-uuid-"
 };
 
 //modal
 function showModal(student) {
   console.log(student);
-  modal.querySelector("h2").textContent =
-    student.firstName + " " + student.middleName + " " + student.lastName;
+  if (student.middleName !== "-middleName-") {
+    modal.querySelector("h2").textContent =
+      student.firstName + " " + student.middleName + " " + student.lastName;
+  } else {
+    modal.querySelector("h2").textContent =
+      student.firstName + " " + student.lastName;
+  }
+  // modal.querySelector("h2").textContent =
+  //   student.firstName + " " + student.middleName + " " + student.lastName;
   // modal.querySelector("h2").textContent = student.lastName;
-  modal.querySelector("p").textContent = student.house;
+  // modal.querySelector("p").textContent = student.house;
   modal.classList.remove("hide");
+  // let expelStudent = expelledList.find(stud => stud.id === `${student.id}`);
   let expelStudent = expelledList.find(stud => stud.id === `${student.id}`);
+  if (expelStudent !== undefined) {
+    modal.querySelector(".signExpel").textContent = `${data.expel}`;
+  } else {
+    modal.querySelector(".signExpel").textContent = "";
+  }
+  if (student.lastName === "Patil") {
+    modal.querySelector(
+      ".studentImg"
+    ).src = `images/${student.lastName.toLowerCase()}_${student.firstName.toLowerCase()}.png`;
+  } else {
+    modal.querySelector(
+      ".studentImg"
+    ).src = `images/${student.lastName.toLowerCase()}_${student.firstName[0].toLowerCase()}.png`;
+  }
 }
 //expel
 function clickExpel(event) {
   const element = event.target; //the thing that was actually clicked
   const uuid = element.dataset.attribute;
-  if (element.dataset.action === "expel") {
-    console.log("expel button clicked!");
-    console.log(element);
-    element.parentElement.parentElement.remove(); //remove action
+  if (element.dataset.action === "remove") {
     let expelStudent = studentList.find(student => student.id === uuid);
 
     element.value = "EXPELLED";
     element.disabled = "true";
+    element.classList.add("expelledstyle");
+
     expelledList.push(expelStudent);
     //get index of element to remove
     const index = element.dataset.index;
     showList.splice(index, 1);
     console.table(showList);
 
-    //Get data-attribute from the button
-
+    //
     //show student number
+    const indexOfActiveList = showList.findIndex(studentId);
+    showList.splice(indexOfActiveList, 1);
     document.querySelector("#studentCount").innerHTML =
       "Student:" + " " + showList.length; //??
     document.querySelector("#studentExpelled").innerHTML =
       "Expelled:" + " " + expelledList.length;
+  }
+  //return uuid;
+  function studentId(student) {
+    if (student.id === uuid) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 // uuid src: https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
